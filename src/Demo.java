@@ -6,10 +6,10 @@ public class Demo {
 	private static String myWord = "";
 	static Scanner sc = new Scanner(System.in);
 	private static int num = 0;
-	private static String word2="";
+	private static String word2 = "";
 
 	public static void main(String[] args) {
-		
+
 		System.out.println("Enter the word you want to search ");
 		MY_WORD = sc.next();
 
@@ -18,8 +18,8 @@ public class Demo {
 		showMatrix(word);
 
 		int number = 0;
-		number = checkRows(word) + checkCols(word) + mainDiagonal(word) +  secondDiagonalLeftToRight(word);
-						
+		number = checkRows(word) + checkCols(word) + mainDiagonal(word) + secondDiagonal(word);
+
 		System.out.println(MY_WORD + " occurs " + number + " times !");
 	}
 
@@ -35,7 +35,7 @@ public class Demo {
 	static char[][] enterMatrix() {
 
 		int rows = 0, cols = 0;
-		while (rows <= 0 || cols <= 0){
+		while (rows <= 0 || cols <= 0) {
 			System.out.println("Please enter the number of rows of the matrix");
 			rows = sc.nextInt();
 			System.out.println("Please enter the number of cols of the matrix");
@@ -43,7 +43,9 @@ public class Demo {
 			if (rows <= 0 || cols <= 0) {
 				System.out.println("Enter positive numbers");
 			}
-		} while (rows <= 0 && cols <= 0);
+		}
+		while (rows <= 0 && cols <= 0)
+			;
 		char[][] word = new char[rows][cols];
 		System.out.println("Now fill in the matrix");
 		for (int row = 0; row < rows; row++) {
@@ -58,7 +60,7 @@ public class Demo {
 	static int function(char[][] word, int number, int row, int col) {
 		try {
 			myWord += word[row][col];
-			word2+=word[row][col];
+			word2 += word[row][col];
 		} catch (Exception e) {
 		}
 		if (myWord.contains(MY_WORD)) {
@@ -67,18 +69,18 @@ public class Demo {
 		}
 		return number;
 	}
-	
-	static void checkReverse(){
-		
-		if(new StringBuilder(word2).reverse().toString().contains(MY_WORD)){
+
+	static void checkReverse() {
+
+		if (new StringBuilder(word2).reverse().toString().contains(MY_WORD)) {
 			num++;
 		}
-		word2="";
-		myWord="";		
+		word2 = "";
+		myWord = "";
 	}
 
 	static int checkRows(char[][] word) {
-		num=0;
+		num = 0;
 		for (int row = 0; row < word.length; row++) {
 			for (int col = 0; col < word[row].length; col++) {
 				num = function(word, num, row, col);
@@ -136,7 +138,7 @@ public class Demo {
 		return num;
 	}
 
-	static int secondDiagonalLeftToRight(char[][] word) {
+	static int secondDiagonal(char[][] word) {
 		int numOfRows = word.length - 1;
 		int col = 0;
 		num = 0;
