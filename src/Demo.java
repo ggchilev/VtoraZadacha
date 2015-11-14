@@ -1,11 +1,9 @@
-
- 
-// Използвам функцията contains(), коятми спестява около 300 реда код
+//Извеждам проверката за думата в отделна, функция. По този начин намалявам повторението на код 
+//и спестявам над 100 реда.
 
 public class Demo {
 
 	private static final String MY_WORD = "ivan";
-	private static final int MY_WORD_LENGTH = 4;
 	private static String myWord = "";
 	
 	public static void main(String[] args) {
@@ -22,39 +20,47 @@ public class Demo {
 		br = checkRowsLeftToRight(word) + checkRowsRightToLeft(word) + checkColDownward(word) +
 				checkColUpward(word) + mainDiagonalLeftToRight(word) + mainDiagonalRightToLeft(word)+
 				secondDiagonalLeftToRight(word)+secondDiagonalRightToLeft(word);
+		
 		System.out.println(MY_WORD+" occurs "+br+" times !");
-	
+		
 	}
 		
-		static int checkRowsLeftToRight(char[][] word)
+	   static int function(char[][] word,int br,int row,int col){
+		    try{
+				myWord+=word[row][col];
+				}
+				catch (Exception e) {
+				}
+			if(myWord.contains(MY_WORD)){
+				br++;
+				myWord="";
+			}
+			return br;
+	   }
+	 
+	   static int checkRowsLeftToRight(char[][] word)
 		{
 			int rowsBr=0;
 				for(int i=0;i<word.length;i++)
 				{
 					for(int j=0;j<word[i].length;j++)
 					{
-						myWord+=word[i][j];
-						if(myWord.contains(MY_WORD)){
-							rowsBr++;
-							myWord="";
-						}
-						
+					  rowsBr=	function(word,rowsBr,i,j);
+					
 					}	
-                }
+					myWord="";
+             }
 				return rowsBr;
-        }
+     }
 		static int checkRowsRightToLeft(char[][] word)
 		{
 			int rowsBr=0;
 			myWord="";
 			for(int i=0;i<word.length;i++){
 				for(int j=word[i].length-1;j>=0;j--){
-					myWord+=word[i][j];
-					if(myWord.contains(MY_WORD)){
-						rowsBr++;
-						myWord="";
-					}
+					rowsBr=	function(word,rowsBr,i,j);
 				}
+				myWord="";
 			}
 			return rowsBr;
 		}
@@ -66,12 +72,9 @@ public class Demo {
 				{
 					for(int i=0;i<word.length;i++)
 					{
-						myWord+=word[i][j];
-						if(myWord.contains(MY_WORD)){
-							colBr++;
-							myWord="";
-						}
+						colBr=	function(word,colBr,i,j);
 					}
+					myWord="";
 					}
 				return colBr;
 		}
@@ -82,48 +85,30 @@ public class Demo {
 			    myWord="";
 				for(int j=0;j<word[0].length;j++){
 					for(int i=word.length-1;i>0;i--){
-						myWord+=word[i][j];
-						if(myWord.contains(MY_WORD)){
-							colBr++;
-							myWord="";
-						}
+						colBr=	function(word,colBr,i,j);
 					}
+					myWord="";
 				}
 				return colBr;
 		}
 		
 		static int mainDiagonalLeftToRight(char[][] word){
 			
-			
-			
 			int br=0;
 			int col =0;
 			int numOfRows = 0;
-			int downRows=word.length;
 			
 			// main diagonal and under main diagonal
 			
-
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row<word.length;row++){
-					try{
-					myWord+=word[row][col];
-					}
-					catch (Exception e){
-						
-					}
-					
-					if(myWord.contains(MY_WORD)){
-						br++;
-						myWord="";
-					}
+					br=	function(word,br,row,col);
 					col++;
 			}
 				myWord="";
 				col=0;				
 				numOfRows++;
 			}
-
 			
 			// above main diagonal 
 			
@@ -134,27 +119,18 @@ public class Demo {
 				for(int k=0;k<word.length;k++)
 				{
 					for(int row=0;row<word.length;row++){
-						try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+							br=	function(word,br,row,col);
 						col++;
 				}
-					col=++colNum;				
+					col=++colNum;	
+					myWord="";
 				}
-				
-			
+							
 			return br;
 		}
 		
 		static int mainDiagonalRightToLeft(char[][] word){
 			
-
 			int br=0;
 			int numOfRows=word.length-1;
 			int col=word[0].length-1;
@@ -164,16 +140,7 @@ public class Demo {
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row>=0;row--){
-					try{
-					myWord+=word[row][col];
-					}
-					catch (Exception e){						
-					}
-					
-					if(myWord.contains(MY_WORD)){
-						br++;
-						myWord="";
-					}
+					br=	function(word,br,row,col);
 					col--;
 			}
 				myWord="";
@@ -191,18 +158,11 @@ public class Demo {
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row>=0;row--){
-						try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+					br=	function(word,br,row,col);
 						col--;
 				}
-					col=--colNum;				
+					col=--colNum;		
+					myWord="";
 				}
 							
 			return br;
@@ -219,44 +179,28 @@ public class Demo {
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row>=0;row--){
-					try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+					br=	function(word,br,row,col);
 						col++;
 										}
 				numOfRows=--rowsNum;
-                col=0;
+             col=0;
+             myWord="";
 			}
 			
 			// elements under diagonal
-			
-			
+						
 			int numOfCols = 1;
 			col=numOfCols;
 			numOfRows=word.length-1;
-			
-			
+						
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row>=0;row--){
-					try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+					br=	function(word,br,row,col);
 						col++;
 				}
 				col=++numOfCols;
+				myWord="";
 			}	
 			return br;
 		}
@@ -271,18 +215,11 @@ public class Demo {
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row<word.length;row++){
-					try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+					br=	function(word,br,row,col);
 						col--;
 				}
 				numOfRows++;
+				myWord="";
 				col=word[0].length-1;
 			}
 			
@@ -295,22 +232,13 @@ public class Demo {
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row<word.length;row++){
-					try{
-						myWord+=word[row][col];
-						}
-						catch (Exception e) {
-						}
-						if(myWord.contains(MY_WORD)){
-							br++;
-							myWord="";
-						}
+					br=	function(word,br,row,col);
 						col--;
 				}
 				col=--numOfCols;
+				myWord="";
 			}
 			
 			return br;
 		}
 }
-
-
