@@ -1,100 +1,132 @@
-//Извеждам проверката за думата в отделна, функция. По този начин намалявам повторението на код 
-//и спестявам над 100 реда.
+import java.util.Scanner;
 
 public class Demo {
 
-	private static final String MY_WORD = "ivan";
+	private static String MY_WORD = "";
 	private static String myWord = "";
+	static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		
-		char[][] word = 
-			{
-					{'i','v','a','n'},
-					{'e','v','n','h'},
-					{'i','n','a','v'},
-					{'m','v','v','n'},
-					{'q','r','i','t'}
-			};
-		int br=0;
-		br = checkRowsLeftToRight(word) + checkRowsRightToLeft(word) + checkColDownward(word) +
+		
+		System.out.println("Enter the word you want to search ");
+		MY_WORD = sc.next();
+		
+		char[][] word = enterMatrix();
+		System.out.println("Here is the matrix : ");
+		showMatrix(word);
+		
+		int number=0;
+		number = checkRowsLeftToRight(word) + checkRowsRightToLeft(word) + checkColDownward(word) +
 				checkColUpward(word) + mainDiagonalLeftToRight(word) + mainDiagonalRightToLeft(word)+
 				secondDiagonalLeftToRight(word)+secondDiagonalRightToLeft(word);
 		
-		System.out.println(MY_WORD+" occurs "+br+" times !");
-		
+		System.out.println(MY_WORD+" occurs "+number+" times !");		
 	}
+	
+	 static void showMatrix(char[][] word){
+		 for(int row=0;row<word.length;row++){
+			 for(int col=0;col<word[row].length;col++){
+				 System.out.print(word[row][col]+" ");
+			 }
+			 System.out.println();
+		 }
+		 }
+	
+	  static char[][] enterMatrix(){
+		 
+		  int rows=0,cols=0;
+		  do
+		  {
+		  System.out.println("Please enter the number of rows of the matrix");
+		  rows = sc.nextInt();
+		  System.out.println("Please enter the number of cols of the matrix");
+		  cols = sc.nextInt();
+		  if(rows<=0 || cols<=0){
+			  System.out.println("Enter positive numbers");
+		  }
+		  }while(rows<=0 && cols<=0);
+		  char[][] word = new char[rows][cols];
+		  System.out.println("Now fill in the matrix");
+		  for(int row=0;row<rows;row++){
+			  for(int col=0;col<cols;col++){
+				  System.out.println("Enter char for row N"+row+" and col N"+col);
+				  word[row][col]=sc.next().charAt(0);
+			  }
+		  }
+		    return word;
+	  }
 		
-	   static int function(char[][] word,int br,int row,int col){
+	   static int function(char[][] word,int number,int row,int col){
 		    try{
 				myWord+=word[row][col];
 				}
 				catch (Exception e) {
 				}
 			if(myWord.contains(MY_WORD)){
-				br++;
+				number++;
 				myWord="";
 			}
-			return br;
+			return number;
 	   }
 	 
 	   static int checkRowsLeftToRight(char[][] word)
 		{
-			int rowsBr=0;
-				for(int i=0;i<word.length;i++)
+			int rowsNum=0;
+				for(int row=0;row<word.length;row++)
 				{
-					for(int j=0;j<word[i].length;j++)
+					for(int col=0;col<word[row].length;col++)
 					{
-					  rowsBr=	function(word,rowsBr,i,j);
+					  rowsNum=	function(word,rowsNum,row,col);
 					
 					}	
 					myWord="";
              }
-				return rowsBr;
+				return rowsNum;
      }
 		static int checkRowsRightToLeft(char[][] word)
 		{
-			int rowsBr=0;
+			int rowsNum=0;
 			myWord="";
-			for(int i=0;i<word.length;i++){
-				for(int j=word[i].length-1;j>=0;j--){
-					rowsBr=	function(word,rowsBr,i,j);
+			for(int row=0;row<word.length;row++){
+				for(int col=word[row].length-1;col>=0;col--){
+					rowsNum=	function(word,rowsNum,row,col);
 				}
 				myWord="";
 			}
-			return rowsBr;
+			return rowsNum;
 		}
 		static int checkColDownward(char[][] word)
 		{
-			    int colBr=0;
+			    int colNum=0;
 			    myWord="";
-				for(int j=0;j<word[0].length;j++)
+				for(int col=0;col<word[0].length;col++)
 				{
-					for(int i=0;i<word.length;i++)
+					for(int row=0;row<word.length;row++)
 					{
-						colBr=	function(word,colBr,i,j);
+						colNum=	function(word,colNum,row,col);
 					}
 					myWord="";
 					}
-				return colBr;
+				return colNum;
 		}
 		
 		static int checkColUpward(char[][] word)
 		{
-			    int colBr=0;
+			    int colNum=0;
 			    myWord="";
-				for(int j=0;j<word[0].length;j++){
-					for(int i=word.length-1;i>0;i--){
-						colBr=	function(word,colBr,i,j);
+				for(int col=0;col<word[0].length;col++){
+					for(int row=word.length-1;row>0;row--){
+						colNum=	function(word,colNum,row,col);
 					}
 					myWord="";
 				}
-				return colBr;
+				return colNum;
 		}
 		
 		static int mainDiagonalLeftToRight(char[][] word){
 			
-			int br=0;
+			int num=0;
 			int col =0;
 			int numOfRows = 0;
 			
@@ -102,7 +134,7 @@ public class Demo {
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row<word.length;row++){
-					br=	function(word,br,row,col);
+					num = function(word,num,row,col);
 					col++;
 			}
 				myWord="";
@@ -119,19 +151,19 @@ public class Demo {
 				for(int k=0;k<word.length;k++)
 				{
 					for(int row=0;row<word.length;row++){
-							br=	function(word,br,row,col);
+							num=	function(word,num,row,col);
 						col++;
 				}
 					col=++colNum;	
 					myWord="";
 				}
 							
-			return br;
+			return num;
 		}
 		
 		static int mainDiagonalRightToLeft(char[][] word){
 			
-			int br=0;
+			int num=0;
 			int numOfRows=word.length-1;
 			int col=word[0].length-1;
 			int rowNum = numOfRows;
@@ -140,7 +172,7 @@ public class Demo {
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row>=0;row--){
-					br=	function(word,br,row,col);
+					num=	function(word,num,row,col);
 					col--;
 			}
 				myWord="";
@@ -158,28 +190,28 @@ public class Demo {
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row>=0;row--){
-					br=	function(word,br,row,col);
+					num = function(word,num,row,col);
 						col--;
 				}
 					col=--colNum;		
 					myWord="";
 				}
 							
-			return br;
+			return num;
 		}
 		
 		static int secondDiagonalLeftToRight(char[][] word)
 		{
 			int numOfRows=word.length-1;
 			int col=0;
-			int br=0;
+			int num=0;
 		    int rowsNum = numOfRows;
 			
 			// elements above diagonal
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row>=0;row--){
-					br=	function(word,br,row,col);
+					num = function(word,num,row,col);
 						col++;
 										}
 				numOfRows=--rowsNum;
@@ -196,26 +228,26 @@ public class Demo {
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row>=0;row--){
-					br=	function(word,br,row,col);
+					num=function(word,num,row,col);
 						col++;
 				}
 				col=++numOfCols;
 				myWord="";
 			}	
-			return br;
+			return num;
 		}
 		
 		static int secondDiagonalRightToLeft(char[][] word){
 			
 			int numOfRows=0;
 			int col=word[0].length-1;
-			int br=0;
+			int num=0;
 		
 			//Elements under diagonal
 			
 			for(int k=0;k<word.length;k++){
 				for(int row=numOfRows;row<word.length;row++){
-					br=	function(word,br,row,col);
+					num = function(word,num,row,col);
 						col--;
 				}
 				numOfRows++;
@@ -232,13 +264,13 @@ public class Demo {
 			for(int k=0;k<word.length;k++)
 			{
 				for(int row=numOfRows;row<word.length;row++){
-					br=	function(word,br,row,col);
+					num = function(word,num,row,col);
 						col--;
 				}
 				col=--numOfCols;
 				myWord="";
 			}
 			
-			return br;
+			return num;
 		}
 }
